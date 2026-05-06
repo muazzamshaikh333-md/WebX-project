@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Dashboard · CampusPath</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+<button id="menu-toggle" class="menu-toggle">☰ Menu</button>
+<div class="app">
+  <aside id="sidebar" class="sidebar"></aside>
+  <main class="main">
+    <div class="page-head">
+      <div>
+        <h1>Welcome back, Muazzam</h1>
+        <p>Final-year placement window is open. Here's your snapshot.</p>
+      </div>
+      <a href="opportunities.html" class="btn btn-primary">Browse Opportunities →</a>
+    </div>
+
+    <section class="grid grid-4" style="margin-bottom:1.25rem">
+      <div class="card stat"><div class="label">CGPA</div><div class="value">8.42</div><div class="delta">Eligible for premium drives</div></div>
+      <div class="card stat"><div class="label">Active Applications</div><div class="value" id="stat-active">—</div><div class="delta">Across internships & placements</div></div>
+      <div class="card stat"><div class="label">Interviews Scheduled</div><div class="value" id="stat-interview">—</div><div class="delta">Next: this week</div></div>
+      <div class="card stat"><div class="label">Open Opportunities</div><div class="value" id="stat-open">—</div><div class="delta">Matching your profile</div></div>
+    </section>
+
+    <section class="grid grid-2">
+      <div class="card">
+        <h2>Recommended for you</h2>
+        <p style="color:var(--muted);margin:.25rem 0 1rem">Top picks based on your skills and CGPA.</p>
+        <div id="reco-list" class="grid" style="gap:1rem"></div>
+      </div>
+      <div class="card">
+        <h2>Application status</h2>
+        <p style="color:var(--muted);margin:.25rem 0 1rem">Live tracker</p>
+        <div id="status-list" class="activity"></div>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+renderSidebar('dashboard');
+document.getElementById('stat-active').textContent = applications.filter(a=>!['Rejected','Offered'].includes(a.status)).length;
+document.getElementById('stat-interview').textContent = applications.filter(a=>['Interview','Shortlisted'].includes(a.status)).length;
+document.getElementById('stat-open').textContent = opportunities.length;
+
+document.getElementById('reco-list').innerHTML = opportunities.slice(0,2).map(opportunityCard).join('');
+document.getElementById('status-list').innerHTML = applications.map(a=>{
+  const op = getOpportunity(a.opportunityId);
+  return `<div class="activity-item">
+    <div class="activity-dot"></div>
+    <div style="flex:1">
+      <div class="who">${op.role} <span style="color:var(--muted);font-weight:400">· ${op.company}</span></div>
+      <div style="margin-top:.25rem"><span class="badge ${statusBadge[a.status]}">${a.status}</span></div>
+      ${a.nextStep?`<div class="when">${a.nextStep}</div>`:`<div class="when">Updated ${fmtDate(a.updatedOn)}</div>`}
+    </div>
+  </div>`;
+}).join('');
+</script>
+</body>
+</html>
