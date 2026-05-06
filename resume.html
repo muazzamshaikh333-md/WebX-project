@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Resume · CampusPath</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+<button id="menu-toggle" class="menu-toggle">☰ Menu</button>
+<div class="app">
+  <aside id="sidebar" class="sidebar"></aside>
+  <main class="main">
+    <div class="page-head"><div><h1>Resume</h1><p>Keep your CV updated — recruiters review it within 24 hours.</p></div></div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h2>Upload new resume</h2>
+        <p style="color:var(--muted);margin:.25rem 0 1rem">PDF only · max 5 MB</p>
+        <label class="resume-drop" for="file">
+          <div class="icon">⬆️</div>
+          <div style="font-weight:600;margin-top:.5rem">Click or drag a file here</div>
+          <div style="color:var(--muted);font-size:.8rem;margin-top:.25rem" id="file-name">No file chosen</div>
+          <input type="file" id="file" accept="application/pdf" hidden/>
+        </label>
+        <button class="btn btn-primary" style="margin-top:1rem;width:100%" onclick="alert('Resume uploaded successfully.')">Submit for Review</button>
+      </div>
+      <div class="card">
+        <h2>Current resume</h2>
+        <p style="color:var(--muted);margin:.25rem 0 1rem">Last updated <span id="r-date"></span></p>
+        <div class="resume-current">
+          <div class="resume-icon">PDF</div>
+          <div style="flex:1">
+            <div style="font-weight:600" id="r-name"></div>
+            <div style="color:var(--muted);font-size:.78rem">Approved by TPO · visible to recruiters</div>
+          </div>
+          <button class="btn">Download</button>
+        </div>
+        <h3 style="margin-top:1.5rem;font-size:.95rem">Resume tips</h3>
+        <ul style="color:#3a4763;font-size:.85rem;padding-left:1.1rem;line-height:1.7;margin:.5rem 0 0">
+          <li>Keep it to one page with quantified impact.</li>
+          <li>List relevant projects above coursework.</li>
+          <li>Use the same skills you want to be tested on.</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+renderSidebar('resume');
+document.getElementById('r-name').textContent = student.resume;
+document.getElementById('r-date').textContent = fmtDate(student.resumeUpdated);
+document.getElementById('file').addEventListener('change', e=>{
+  document.getElementById('file-name').textContent = e.target.files[0]?.name || 'No file chosen';
+});
+</script>
+</body>
+</html>

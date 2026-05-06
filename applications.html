@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Applications · CampusPath</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+<button id="menu-toggle" class="menu-toggle">☰ Menu</button>
+<div class="app">
+  <aside id="sidebar" class="sidebar"></aside>
+  <main class="main">
+    <div class="page-head">
+      <div><h1>Application tracker</h1><p>Every application you've submitted, in one place.</p></div>
+    </div>
+    <div class="card" style="padding:.5rem 1rem">
+      <table>
+        <thead><tr><th>Role</th><th>Company</th><th>Type</th><th>Applied</th><th>Status</th><th>Next step</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+renderSidebar('applications');
+document.getElementById('rows').innerHTML = applications.map(a=>{
+  const o = getOpportunity(a.opportunityId);
+  return `<tr>
+    <td><strong>${o.role}</strong></td>
+    <td>${o.company}</td>
+    <td><span class="badge ${o.type==='Internship'?'badge-accent':'badge-primary'}">${o.type}</span></td>
+    <td>${fmtDate(a.appliedOn)}</td>
+    <td><span class="badge ${statusBadge[a.status]}">${a.status}</span></td>
+    <td style="color:var(--muted)">${a.nextStep||'—'}</td>
+  </tr>`;
+}).join('');
+</script>
+</body>
+</html>

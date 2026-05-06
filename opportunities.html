@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Opportunities · CampusPath</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+<button id="menu-toggle" class="menu-toggle">☰ Menu</button>
+<div class="app">
+  <aside id="sidebar" class="sidebar"></aside>
+  <main class="main">
+    <div class="page-head">
+      <div><h1>Opportunities</h1><p>Browse internships and placement drives open to your batch.</p></div>
+    </div>
+    <div class="filters">
+      <input id="q" placeholder="Search by role, company, or skill…"/>
+      <select id="type">
+        <option value="">All types</option>
+        <option>Internship</option><option>Placement</option>
+      </select>
+    </div>
+    <div id="list" class="grid grid-3"></div>
+  </main>
+</div>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+renderSidebar('opportunities');
+const list = document.getElementById('list'), q = document.getElementById('q'), t = document.getElementById('type');
+function render(){
+  const term = q.value.toLowerCase(), type = t.value;
+  const filtered = opportunities.filter(o =>
+    (!type || o.type===type) &&
+    (!term || (o.role+o.company+o.skills.join(' ')).toLowerCase().includes(term))
+  );
+  list.innerHTML = filtered.length ? filtered.map(opportunityCard).join('') :
+    `<div class="card" style="grid-column:1/-1;text-align:center;color:var(--muted)">No opportunities match your search.</div>`;
+}
+q.addEventListener('input',render); t.addEventListener('change',render); render();
+</script>
+</body>
+</html>

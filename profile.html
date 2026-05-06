@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Profile · CampusPath</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+<button id="menu-toggle" class="menu-toggle">☰ Menu</button>
+<div class="app">
+  <aside id="sidebar" class="sidebar"></aside>
+  <main class="main">
+    <div class="page-head"><div><h1>Personal profile</h1><p>Verified by the TPO office. Edits require approval.</p></div></div>
+    <div class="profile-grid">
+      <div class="card profile-hero">
+        <div class="avatar" id="p-avatar"></div>
+        <h2 id="p-name" style="margin-top:.5rem"></h2>
+        <div style="color:var(--muted);font-size:.85rem" id="p-roll"></div>
+        <div style="margin-top:.85rem"><span class="badge badge-primary" id="p-year"></span></div>
+      </div>
+      <div class="card">
+        <h2>Academic & contact</h2>
+        <div id="fields" style="margin-top:.75rem"></div>
+        <h3 style="font-size:.95rem;margin-top:1.25rem">Skills</h3>
+        <div class="opp-skills" id="skills" style="margin-top:.5rem"></div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+renderSidebar('profile');
+document.getElementById('p-avatar').textContent = initials(student.name);
+document.getElementById('p-name').textContent = student.name;
+document.getElementById('p-roll').textContent = student.rollNo;
+document.getElementById('p-year').textContent = student.year;
+const fields = [
+  ['Branch', student.branch],['CGPA', student.cgpa],
+  ['Email', student.email],['Phone', student.phone],
+];
+document.getElementById('fields').innerHTML = fields.map(([l,v])=>`
+  <div class="field"><div class="label">${l}</div><div class="val">${v}</div></div>`).join('');
+document.getElementById('skills').innerHTML = student.skills.map(s=>`<span class="badge">${s}</span>`).join('');
+</script>
+</body>
+</html>
